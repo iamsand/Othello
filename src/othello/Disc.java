@@ -1,5 +1,5 @@
 package othello;
 
 public enum Disc {
-	WHITE, BLACK;
+	WHITE, BLACK, EMPTY;
 }

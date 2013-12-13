@@ -11,6 +11,6 @@ public class OthelloMain {
 		players[0] = new PlayerHuman();
 		players[1] = new PlayerGreed();
 
-		g.run(players, true, false);
+		g.run(players);
 	}
 }
