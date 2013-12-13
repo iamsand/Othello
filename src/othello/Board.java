@@ -1,10 +1,12 @@
 package othello;
 
-/**
- * A utility class with a miscellaneous set of functions used commonly by Othello's code.
+/*
+ * A class to represent the othello board.
  */
-public class Utility {
 
+// TODO: Add more functionality to the board.
+public class Board {
+	
 	// Test whether or not a move is legal.
 	public static boolean isLegalMove(short[][] board, Coordinate c, boolean black) {
 		return false;

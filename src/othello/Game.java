@@ -53,7 +53,7 @@ public class Game {
 		players[1].startNewGame(board);
 		while (result == 0) {
 			Coordinate p1Move = players[0].move();
-			if (Utility.isLegalMove(board, p1Move, true))
+			if (Board.isLegalMove(board, p1Move, true))
 				move(p1Move, true);
 			else {
 				if (p1Human) {
@@ -64,12 +64,12 @@ public class Game {
 					System.exit(0);
 				}
 
-				result = Utility.isGameOver(false);
+				result = Board.isGameOver(false);
 				if (result != 0)
 					break;
 
 				Coordinate p2Move = players[1].move();
-				if (Utility.isLegalMove(board, p2Move, false))
+				if (Board.isLegalMove(board, p2Move, false))
 					move(p2Move, false);
 				else {
 					if (p2Human) {
@@ -81,7 +81,7 @@ public class Game {
 					}
 				}
 
-				result = Utility.isGameOver(false);
+				result = Board.isGameOver(false);
 				if (result != 0)
 					break;
 
