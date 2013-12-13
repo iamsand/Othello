@@ -1,19 +1,26 @@
 package player;
 
+import java.util.Scanner;
+
 import othello.*;
 
 // This is a class that allows a human to play.
 public class PlayerHuman implements IPlayer {
 
+	Board	board;
+
 	@Override
 	public void startNewGame(Board board) {
-		// TODO Auto-generated method stub
-
+		this.board = board;
 	}
 
 	@Override
 	public Coordinate move() {
-		// TODO Auto-generated method stub
-		return null;
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter coordinates r c:");
+		int r = sc.nextInt();
+		int c = sc.nextInt();
+		sc.close();
+		return new Coordinate(r, c);
 	}
 }

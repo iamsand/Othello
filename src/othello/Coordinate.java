@@ -1,4 +1,5 @@
 package othello;
+
 /** An instance represents a pair of integer coordinates. */
 public class Coordinate {
 

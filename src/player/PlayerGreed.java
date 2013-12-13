@@ -4,10 +4,12 @@ import othello.*;
 
 // This is a testing AI that simply makes the greedy choice for every move.
 public class PlayerGreed implements IPlayer {
-	
+
+	Board	board;
+
 	@Override
 	public void startNewGame(Board board) {
-		// TODO Auto-generated method stub
+		this.board = board;
 
 	}
 
