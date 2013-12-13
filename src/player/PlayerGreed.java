@@ -6,7 +6,7 @@ import othello.*;
 public class PlayerGreed implements IPlayer {
 	
 	@Override
-	public void startNewGame(short[][] board) {
+	public void startNewGame(Board board) {
 		// TODO Auto-generated method stub
 
 	}

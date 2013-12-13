@@ -13,7 +13,7 @@ public interface IPlayer {
 	 * 
 	 * @param board
 	 */
-	void startNewGame(short[][] board);
+	void startNewGame(Board board);
 
 	/**
 	 * Determines the next action the player will take during a game.

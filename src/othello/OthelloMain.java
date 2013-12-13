@@ -5,7 +5,6 @@ import player.*;
 public class OthelloMain {
 	public static void main(String[] args) {
 		Game g = new Game(8, true);
-		g.init();
 
 		IPlayer[] players = new IPlayer[2];
 		// Add the two players here. Player[0] goes first.
