@@ -30,7 +30,7 @@ public class PlayerGreed implements IPlayer {
 		for (Coordinate c : allMoves) {
 			Board clone = board.clone();
 			clone.makeMove(c, p);
-			int net = clone.getDiscs(p);
+			int net = clone.getDiscs(p) - clone.getDiscs(p.switchPlayer());
 			if (net > maxNet)
 				bestMoves.clear();
 			if (net >= maxNet) {
