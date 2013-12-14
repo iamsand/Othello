@@ -9,7 +9,7 @@ import othello.Player;
 // This is a testing AI that simply makes the greedy choice for every move.
 public class PlayerGreed implements IPlayer {
 
-	Board	board;
+	Board		board;
 	Player	p;
 
 	@Override
@@ -21,20 +21,25 @@ public class PlayerGreed implements IPlayer {
 	@Override
 	public Coordinate move() {
 		ArrayList<Coordinate> allMoves = board.allLegalMoves(p);
-		
+
 		ArrayList<Coordinate> bestMoves = new ArrayList<Coordinate>();
 		int maxNet = Integer.MIN_VALUE;
 		for (Coordinate c : allMoves) {
 			Board clone = board.clone();
 			clone.makeMove(c, p);
 			int net = clone.getDiscs(p) - clone.getDiscs(p.switchPlayer());
-			if (net > maxNet) 
+			if (net > maxNet)
 				bestMoves.clear();
 			if (net >= maxNet) {
 				bestMoves.add(c);
 			}
 		}
-		
-		return bestMoves.get((int)Math.random()*bestMoves.size());
+
+		return bestMoves.get((int) Math.random() * bestMoves.size());
+	}
+
+	@Override
+	public String toString() {
+		return "Greed";
 	}
 }

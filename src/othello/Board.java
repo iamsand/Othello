@@ -12,6 +12,10 @@ public class Board {
 	private int			boardDim;
 	private Disc[][]	board;
 
+	public int getBoardDim() {
+		return boardDim;
+	}
+
 	public Board(int boardDim) {
 		this.boardDim = boardDim;
 		this.board = new Disc[boardDim][boardDim];
@@ -20,11 +24,11 @@ public class Board {
 				board[i][j] = Disc.EMPTY;
 		board[boardDim / 2 - 1][boardDim / 2 - 1] = Disc.WHITE;
 		board[boardDim / 2 - 1][boardDim / 2] = Disc.BLACK;
-		board[boardDim / 2][boardDim / 2 - 1] = Disc.WHITE;
-		board[boardDim / 2][boardDim / 2] = Disc.BLACK;
+		board[boardDim / 2][boardDim / 2 - 1] = Disc.BLACK;
+		board[boardDim / 2][boardDim / 2] = Disc.WHITE;
 	}
-	
-	// returns the number of pieces a player has
+
+	// returns the number of pieces a player has on the board.
 	public int getDiscs(Player p) {
 		int count = 0;
 		for (int i = 0; i < boardDim; i++)
@@ -33,14 +37,14 @@ public class Board {
 					count++;
 		return count;
 	}
-	
+
 	// Returns the disc at a given coordinate
 	public Disc getDisc(Coordinate c) {
 		if (!isLegalCoordinate(c))
 			return null;
 		return board[c.getRow()][c.getCol()];
 	}
-	
+
 	// Changes the disc at a given coordinate
 	public void setDisc(Coordinate c, Disc d) {
 		if (!isLegalCoordinate(c)) {
@@ -49,19 +53,19 @@ public class Board {
 		}
 		board[c.getRow()][c.getCol()] = d;
 	}
-	
+
 	// Tests whether a certain player can make a move
 	public boolean canMove(Player p) {
 		for (int i = 0; i < boardDim; i++)
 			for (int j = 0; j < boardDim; j++)
-				if (isLegalMove(new Coordinate(i,j), p))
+				if (isLegalMove(new Coordinate(i, j), p))
 					return true;
 		return false;
 	}
 
 	// Move onto a given square.
 	public void makeMove(Coordinate c, Player p) {
-		if (!isLegalMove(c,p)) {
+		if (!isLegalMove(c, p)) {
 			System.out.println("Player made an illegal move. Please debug.");
 			System.exit(0);
 		}
@@ -75,7 +79,7 @@ public class Board {
 				}
 			}
 	}
-	
+
 	// Returns a copied board
 	public Board clone() {
 		Board clone = new Board(boardDim);
@@ -84,7 +88,7 @@ public class Board {
 				clone.setDisc(new Coordinate(i, j), board[i][j]);
 		return clone;
 	}
-	
+
 	// Tests if a give coordinate is on the board
 	public boolean isLegalCoordinate(Coordinate c) {
 		if (c == null)
@@ -96,12 +100,12 @@ public class Board {
 	public boolean isLegalMove(Coordinate c, Player p) {
 		if (getDisc(c) != Disc.EMPTY)
 			return false;
-		for (Direction dir : Direction.values()) 
+		for (Direction dir : Direction.values())
 			if (isLegalCapture(c, p, dir))
 				return true;
 		return false;
 	}
-	
+
 	// Helper Method
 	// Checks if playing a disc at the given coordinate results in a capture in a certain direction
 	public boolean isLegalCapture(Coordinate c, Player p, Direction dir) {
@@ -114,14 +118,14 @@ public class Board {
 		}
 		return false;
 	}
-	
+
 	// Returns an arraylist of all legal moves for a player
 	public ArrayList<Coordinate> allLegalMoves(Player p) {
 		ArrayList<Coordinate> al = new ArrayList<Coordinate>();
 		for (int i = 0; i < boardDim; i++)
 			for (int j = 0; j < boardDim; j++)
-				if (isLegalMove(new Coordinate(i,j), p))
-					al.add(new Coordinate(i,j));
+				if (isLegalMove(new Coordinate(i, j), p))
+					al.add(new Coordinate(i, j));
 		return al;
 	}
 
@@ -129,7 +133,7 @@ public class Board {
 	public boolean isGameOver() {
 		return !canMove(Player.BLACK) && !canMove(Player.WHITE);
 	}
-	
+
 	// Returns the winner of the game, or null if it's a tie
 	public Player getWinner() {
 		if (getDiscs(Player.WHITE) == getDiscs(Player.BLACK))
@@ -142,19 +146,29 @@ public class Board {
 	// Prints the board to the console.
 	// TODO: make method less ugly, make board printout less ugly (graphical interface eventually?)
 	public void printBoard() {
+		System.out.print("[ ] ");
+		for (int c = 0; c < board.length; c++) {
+			System.out.print("[" + c + "]");
+			if (c!= board.length-1)
+				System.out.print(" ");
+		}
+		System.out.println();
 		for (int r = 0; r < board.length; r++) {
+			System.out.print("[" + r + "] ");
 			for (int c = 0; c < board.length; c++) {
 				switch (board[r][c]) {
 					case BLACK:
-						System.out.print("B");
+						System.out.print("[B]");
 						break;
 					case WHITE:
-						System.out.print("W");
+						System.out.print("[W]");
 						break;
 					default:
-						System.out.print(" ");
+						System.out.print("[ ]");
 						break;
 				}
+				if (c != board.length - 1)
+					System.out.print(" ");
 			}
 			System.out.println();
 		}

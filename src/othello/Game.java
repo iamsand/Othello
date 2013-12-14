@@ -11,29 +11,40 @@ public class Game {
 	}
 
 	public void run(IPlayer[] players) {
-<<<<<<< HEAD
-		players[0].startNewGame(board);
-		players[1].startNewGame(board);
-
-=======
 		players[0].startNewGame(board, Player.BLACK);
 		players[1].startNewGame(board, Player.WHITE);
-		
->>>>>>> 7fcf83145c068bbc80a2df55ea9509c664dd107d
 		Player p = Player.BLACK;
+
+		if (debug) {
+			System.out.println("A friendly game of Othello on a " + board.getBoardDim() + "x" + board.getBoardDim() + " board.");
+			System.out.println("Player 1: " + players[0]);
+			System.out.println("Player 2: " + players[1]);
+			System.out.println();
+			board.printBoard();
+		}
+
 		while (!board.isGameOver()) {
 			if (!board.canMove(p)) {
 				p = p.switchPlayer();
 				continue;
+			}
+			if (debug) {
+				System.out.println("Player " + p + " to move.");
 			}
 			Coordinate move = players[p.intValue()].move();
 			while (!board.isLegalMove(move, p)) {
 				System.out.println("Move is illegal!");
 				move = players[p.intValue()].move();
 			}
+
 			board.makeMove(move, p);
+
+			if (debug) {
+				System.out.println("Move choosen is: " + move);
+				System.out.println();
+				board.printBoard();
+			}
 			p = p.switchPlayer();
-			board.printBoard();
 		}
 
 		printResult();
@@ -46,8 +57,10 @@ public class Game {
 		}
 		if (board.getWinner() == null)
 			System.out.println("Tie game");
-		else
+		else {
 			System.out.println(board.getWinner() + " wins");
+			System.out.println("Score W - B: " + board.getDiscs(Player.WHITE) + " - " + board.getDiscs(Player.BLACK));
+		}
 	}
 
 }
