@@ -1,5 +1,7 @@
 package othello;
 
+import java.util.ArrayList;
+
 /*
  * A class to represent the othello board.
  */
@@ -9,16 +11,6 @@ public class Board {
 
 	private int			boardDim;
 	private Disc[][]	board;
-	private int			numWhite;
-	private int			numBlack;
-
-	public int getWhite() {
-		return numWhite;
-	}
-
-	public int getBlack() {
-		return numBlack;
-	}
 
 	public Board(int boardDim) {
 		this.boardDim = boardDim;
@@ -30,8 +22,16 @@ public class Board {
 		board[boardDim / 2 - 1][boardDim / 2] = Disc.BLACK;
 		board[boardDim / 2][boardDim / 2 - 1] = Disc.WHITE;
 		board[boardDim / 2][boardDim / 2] = Disc.BLACK;
-		numWhite = 2;
-		numBlack = 2;
+	}
+	
+	// returns the number of pieces a player has
+	public int getDiscs(Player p) {
+		int count = 0;
+		for (int i = 0; i < boardDim; i++)
+			for (int j = 0; j < boardDim; j++)
+				if (board[i][j] == p.toDisc())
+					count++;
+		return count;
 	}
 	
 	// Returns the disc at a given coordinate
@@ -76,14 +76,25 @@ public class Board {
 			}
 	}
 	
+	// Returns a copied board
+	public Board clone() {
+		Board clone = new Board(boardDim);
+		for (int i = 0; i < boardDim; i++)
+			for (int j = 0; j < boardDim; j++)
+				clone.setDisc(new Coordinate(i, j), board[i][j]);
+		return clone;
+	}
+	
 	// Tests if a give coordinate is on the board
 	public boolean isLegalCoordinate(Coordinate c) {
+		if (c == null)
+			return false;
 		return c.getRow() >= 0 && c.getRow() < boardDim && c.getCol() >= 0 && c.getCol() < boardDim;
 	}
 
 	// Test whether or not a move is legal.
 	public boolean isLegalMove(Coordinate c, Player p) {
-		if (!isLegalCoordinate(c))
+		if (getDisc(c) != Disc.EMPTY)
 			return false;
 		for (Direction dir : Direction.values()) 
 			if (isLegalCapture(c, p, dir))
@@ -103,6 +114,16 @@ public class Board {
 		}
 		return false;
 	}
+	
+	// Returns an arraylist of all legal moves for a player
+	public ArrayList<Coordinate> allLegalMoves(Player p) {
+		ArrayList<Coordinate> al = new ArrayList<Coordinate>();
+		for (int i = 0; i < boardDim; i++)
+			for (int j = 0; j < boardDim; j++)
+				if (isLegalMove(new Coordinate(i,j), p))
+					al.add(new Coordinate(i,j));
+		return al;
+	}
 
 	// Returns true if the game is over.
 	public boolean isGameOver() {
@@ -111,9 +132,9 @@ public class Board {
 	
 	// Returns the winner of the game, or null if it's a tie
 	public Player getWinner() {
-		if (numWhite == numBlack)
+		if (getDiscs(Player.WHITE) == getDiscs(Player.BLACK))
 			return null;
-		if (numWhite > numBlack)
+		if (getDiscs(Player.WHITE) > getDiscs(Player.BLACK))
 			return Player.WHITE;
 		return Player.BLACK;
 	}

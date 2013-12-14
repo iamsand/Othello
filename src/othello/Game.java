@@ -11,8 +11,8 @@ public class Game {
 	}
 
 	public void run(IPlayer[] players) {
-		players[0].startNewGame(board);
-		players[1].startNewGame(board);
+		players[0].startNewGame(board, Player.BLACK);
+		players[1].startNewGame(board, Player.WHITE);
 		
 		Player p = Player.BLACK;
 		while (!board.isGameOver()) {
@@ -27,6 +27,7 @@ public class Game {
 			}
 			board.makeMove(move, p);
 			p = p.switchPlayer();
+			board.printBoard();
 		}
 		
 		printResult();
