@@ -9,8 +9,8 @@ import othello.Player;
 // This is a testing AI that simply makes the greedy choice for every move.
 public class PlayerGreed implements IPlayer {
 
-	Board		board;
-	Player	p;
+	private Board	board;
+	private Player	p;
 
 	@Override
 	public void startNewGame(Board board, Player p) {
@@ -32,6 +32,7 @@ public class PlayerGreed implements IPlayer {
 				bestMoves.clear();
 			if (net >= maxNet) {
 				bestMoves.add(c);
+				maxNet = net;
 			}
 		}
 

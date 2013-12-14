@@ -9,9 +9,9 @@ import othello.Player;
 // This is a class that allows a human to play.
 public class PlayerHuman implements IPlayer {
 
-	Board		board;
-	Player	p;
-	Scanner	sc;
+	private Board	board;
+	private Player	p;
+	private Scanner	sc;
 
 	@Override
 	public void startNewGame(Board board, Player p) {
