@@ -1,5 +1,8 @@
 package othello;
 
+/**
+ * An instance represents a player color.
+ */
 public enum Player {
 	WHITE, BLACK;
 

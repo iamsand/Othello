@@ -6,7 +6,10 @@ import othello.Coordinate;
 import othello.IPlayer;
 import othello.Player;
 
-// This is a testing AI that simply makes the greedy choice for every move.
+/**
+ * An instance of PlayerGreed simulates a dummy AI that simply chooses the most greedy move every turn. If multiple moves and equal greed value, a random one is
+ * chosen.
+ */
 public class PlayerGreed implements IPlayer {
 
 	private Board	board;
@@ -36,11 +39,16 @@ public class PlayerGreed implements IPlayer {
 			}
 		}
 
-		return bestMoves.get((int)(Math.random() * bestMoves.size()));
+		return bestMoves.get((int) (Math.random() * bestMoves.size()));
 	}
 
 	@Override
 	public String toString() {
 		return "Greed";
+	}
+
+	@Override
+	public Player getPlayerColor() {
+		return p;
 	}
 }

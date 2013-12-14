@@ -6,11 +6,13 @@ import othello.Coordinate;
 import othello.IPlayer;
 import othello.Player;
 
-// This is a class that allows a human to play.
+/**
+ * An instance of PlayerHuman allows a human player for the game. It utilizes scanner to take inputs. Make sure PRINT is true when using the PlayerHuman class!
+ */
 public class PlayerHuman implements IPlayer {
 
-	private Board	board;
-	private Player	p;
+	private Board		board;
+	private Player		p;
 	private Scanner	sc;
 
 	@Override
@@ -31,5 +33,10 @@ public class PlayerHuman implements IPlayer {
 	@Override
 	public String toString() {
 		return "Human";
+	}
+
+	@Override
+	public Player getPlayerColor() {
+		return p;
 	}
 }

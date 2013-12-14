@@ -1,6 +1,8 @@
 package othello;
 
-/** An instance represents a pair of integer coordinates. */
+/**
+ * An instance represents a pair of integer coordinates.
+ */
 public class Coordinate {
 
 	private final int	row;
@@ -14,7 +16,7 @@ public class Coordinate {
 	public Coordinate move(Direction d) {
 		return new Coordinate(row + d.getDRow(), col + d.getDCol());
 	}
-	
+
 	public @Override
 	String toString() {
 		return "(" + row + ", " + col + ")";
@@ -23,7 +25,7 @@ public class Coordinate {
 	public int getRow() {
 		return row;
 	}
-	
+
 	public int getCol() {
 		return col;
 	}
