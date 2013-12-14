@@ -2,7 +2,7 @@ package othello;
 
 public class Game {
 
-	private Board	board;
+	private Board		board;
 	private boolean	debug;
 
 	public Game(int boardDim, boolean debug) {
@@ -13,7 +13,7 @@ public class Game {
 	public void run(IPlayer[] players) {
 		players[0].startNewGame(board);
 		players[1].startNewGame(board);
-		
+
 		Player p = Player.BLACK;
 		while (!board.isGameOver()) {
 			if (!board.canMove(p)) {
@@ -28,7 +28,7 @@ public class Game {
 			board.makeMove(move, p);
 			p = p.switchPlayer();
 		}
-		
+
 		printResult();
 	}
 
