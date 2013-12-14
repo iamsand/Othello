@@ -36,7 +36,7 @@ public class PlayerGreed implements IPlayer {
 			}
 		}
 
-		return bestMoves.get((int) Math.random() * bestMoves.size());
+		return bestMoves.get((int)(Math.random() * bestMoves.size()));
 	}
 
 	@Override
