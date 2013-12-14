@@ -10,7 +10,7 @@ import othello.Player;
  * An instance of PlayerGreed simulates a dummy AI that simply chooses the most greedy move every turn. If multiple moves and equal greed value, a random one is
  * chosen.
  */
-public class PlayerGreed implements IPlayer {
+public class PlayerGreedier implements IPlayer {
 
 	private Board	board;
 	private Player	p;
@@ -30,7 +30,14 @@ public class PlayerGreed implements IPlayer {
 		for (Coordinate c : allMoves) {
 			Board clone = board.clone();
 			clone.makeMove(c, p);
-			int net = clone.getDiscs(p);
+			int net = Integer.MAX_VALUE;
+			ArrayList<Coordinate> oppMoves = clone.allLegalMoves(p.switchPlayer());
+			for (Coordinate move : oppMoves) {
+				Board clone2 = clone.clone();
+				clone2.makeMove(move, p.switchPlayer());
+				if (clone2.getDiscs(p) < net)
+					net = clone2.getDiscs(p);
+			}
 			if (net > maxNet)
 				bestMoves.clear();
 			if (net >= maxNet) {
@@ -44,7 +51,7 @@ public class PlayerGreed implements IPlayer {
 
 	@Override
 	public String toString() {
-		return "Greed";
+		return "Greedier";
 	}
 
 	@Override

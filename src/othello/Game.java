@@ -6,13 +6,17 @@ package othello;
 public class Game {
 
 	private Board		board;
-	private boolean	PRINT;
+	private boolean		PRINT;
 	private IPlayer[]	players;
 
 	public Game(int boardDim, boolean print, IPlayer[] players) {
 		this.players = players;
 		this.board = new Board(boardDim);
 		this.PRINT = print;
+	}
+	
+	public Board getBoard() {
+		return board;
 	}
 
 	public void run() {
