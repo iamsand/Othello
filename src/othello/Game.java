@@ -1,75 +1,74 @@
 package othello;
 
+/**
+ * An instance represents one game of Othello.
+ */
 public class Game {
 
-	public Board		board;
-	
-	public int			result;
-	public boolean		debug;
+	private Board		board;
+	private boolean		PRINT;
+	private IPlayer[]	players;
 
-	public Game(int boardDim, boolean debug) {
+	public Game(int boardDim, boolean print, IPlayer[] players) {
+		this.players = players;
 		this.board = new Board(boardDim);
-		result = 0;
-		this.debug = debug;
+		this.PRINT = print;
+	}
+	
+	public Board getBoard() {
+		return board;
 	}
 
+	public void run() {
+		players[0].startNewGame(board, Player.BLACK);
+		players[1].startNewGame(board, Player.WHITE);
+		Player p = Player.BLACK;
 
+		if (PRINT) {
+			System.out.println("A friendly game of Othello on a " + board.getBoardDim() + "x" + board.getBoardDim() + " board.");
+			System.out.println("Player 1: " + players[0]);
+			System.out.println("Player 2: " + players[1]);
+			System.out.println();
+			board.printBoard();
+		}
 
-
-	public void run(IPlayer[] players, boolean p1Human, boolean p2Human) {
-		players[0].startNewGame(board);
-		players[1].startNewGame(board);
-		while (result == 0) {
-			Coordinate p1Move = players[0].move();
-			if (board.isLegalMove(p1Move, Disc.BLACK))
-				board.addDisc(p1Move, Disc.BLACK);
-			else {
-				if (p1Human) {
-					System.out.println("Move is illegal!");
-					continue;
-				} else {
-					System.out.println("Computer made an illegal move.");
-					System.exit(0);
-				}
-
-				//If the board is won for a player, break.
-				if (board.isGameOver(Disc.WHITE))
-					break;
-				
-				//Otherwise, continue.
-				Coordinate p2Move = players[1].move();
-				if (board.isLegalMove(p2Move, Disc.WHITE))
-					board.addDisc(p2Move, Disc.WHITE);
-				else {
-					if (p2Human) {
-						System.out.println("Move is illegal!");
-						continue;
-					} else {
-						System.out.println("Computer made an illegal move.");
-						System.exit(0);
-					}
-				}
-
-				if (board.isGameOver(Disc.BLACK))
-					break;
-
+		while (!board.isGameOver()) {
+			if (!board.canMove(p)) {
+				p = p.switchPlayer();
+				continue;
 			}
-			printResult();
+			if (PRINT) {
+				System.out.println("Player " + p + " to move.");
+			}
+			Coordinate move = players[p.intValue()].move();
+			while (!board.isLegalMove(move, p)) {
+				System.out.println("Move is illegal!");
+				move = players[p.intValue()].move();
+			}
+
+			board.makeMove(move, p);
+
+			if (PRINT) {
+				System.out.println("Move choosen is: " + move);
+				System.out.println();
+				board.printBoard();
+			}
+			p = p.switchPlayer();
 		}
 	}
 
 	public void printResult() {
-		switch (result) {
-			case -1:
-				System.out.println("Black Wins.");
-				break;
-			case 0:
-				System.out.println("Game is not yet over! Please debug me.");
-				break;
-			case 1:
-				System.out.println("White Wins.");
-				break;
+		if (!board.isGameOver()) {
+			System.out.println("Game is not yet over! Please debug me.");
+			return;
 		}
+		if (board.getWinner() == null)
+			System.out.println("Tie game");
+		else {
+			System.out.println((players[0].getPlayerColor() == board.getWinner() ? players[0].toString() : players[1].toString()) + " playing "
+					+ board.getWinner() + " wins");
+		}
+		System.out.println("Score: " + Math.max(board.getDiscs(Player.WHITE), board.getDiscs(Player.BLACK)) + " - "
+				+ Math.min(board.getDiscs(Player.WHITE), board.getDiscs(Player.BLACK)));
 	}
-
 }

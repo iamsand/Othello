@@ -1,4 +1,4 @@
 /**
- * The player package contains all the different players.
+ * The player package contains all the possible players for the Othello game.
  */
 package player;
