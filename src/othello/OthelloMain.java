@@ -1,22 +1,37 @@
 package othello;
 
+import java.awt.Container;
+import javax.swing.JFrame;
 import player.*;
 
-public class OthelloMain {
+public class OthelloMain extends JFrame {
 	
 	// ----------------------------//
 	// -- Modify arguments here. --//
 	// -------------V--------------//
-	public static IPlayer[] players = new IPlayer[2];
-	public static final int SIZE = 8;
-	public static final boolean PRINT = true;
+	private static IPlayer[] players = new IPlayer[2];
+	private static final int SIZE = 8;
+	private static final boolean PRINT = true;
+	private static int DEFAULT_FPS = 80;
 
+	public OthelloMain(int period) {
+		super("Othello");
+		Container c = getContentPane();
+		GamePanel gp = new GamePanel(this, period, players, SIZE);
+		c.add(gp, "Center");
+		pack();
+		setResizable(false);
+		setVisible(true);
+	}
+	
 	public static void main(String[] args) {
 
 		players[0] = new PlayerGreed();
-		players[1] = new PlayerGreedier();
+		players[1] = new PlayerHuman();
 
-		runMultiple(1000);
+		// runMultiple(1000);
+		int period = (int) (1000.0 / DEFAULT_FPS);
+		new OthelloMain(period);
 	}
 	
 	public static void runOnce() {
