@@ -82,7 +82,12 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 			g = dbImage.getGraphics();
 		}
 
-		g.setColor(new Color(62,156,76)); // white background
+		// clear screen
+		g.setColor(Color.WHITE);
+		g.fillRect(0,0,PWIDTH,PHEIGHT);
+		
+		// green board
+		g.setColor(new Color(62,156,76));
 		g.fillRect(BORDER, BORDER, PWIDTH-2*BORDER, PHEIGHT-2*BORDER);
 		
 		// draw grid lines

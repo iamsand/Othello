@@ -26,4 +26,8 @@ public class PlayerAI1 implements IPlayer{
 		return null;
 	}
 
+	@Override
+	public void endOfGameAnal() {
+	}
+
 }
