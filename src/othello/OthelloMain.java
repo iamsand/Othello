@@ -19,8 +19,8 @@ public class OthelloMain extends JFrame {
 		players[1] = new PlayerGreed();
 	
 		// AITester.test(new PlayerGreedDepth());
-		runOnce();
-		// runMultiple(10);
+		// runOnce();
+		runMultiple(10);
 		// runWithGUI();
 	}
 

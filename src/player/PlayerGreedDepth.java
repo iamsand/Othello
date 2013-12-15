@@ -84,18 +84,14 @@ public class PlayerGreedDepth implements IPlayer {
 				tree(child);
 			}
 
-			// This conditional is just setting up...
-			if (t.player == p) {
+			// This takes the min/ max value of the children treenode depending on whose turn it is.
+			if (nextPlayer != p) {
 				t.maxDiscsForBranch = Integer.MAX_VALUE;
-			}
-
-			// Search all the branches off t for the maximum/minimum depending on whose turn it in.
-			for (treeNode tn : t.children) {
-				if (t.player == p) {
+				for (treeNode tn : t.children)
 					t.maxDiscsForBranch = Math.min(t.maxDiscsForBranch, tn.maxDiscsForBranch);
-				} else {
+			} else {
+				for (treeNode tn : t.children)
 					t.maxDiscsForBranch = Math.max(t.maxDiscsForBranch, tn.maxDiscsForBranch);
-				}
 			}
 		}
 	}
