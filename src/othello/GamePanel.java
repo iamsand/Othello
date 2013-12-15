@@ -225,7 +225,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 		}
 	}
 
-	public void mouseClicked(MouseEvent e) {
+	
+	public void mousePressed(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
 		if (x > BORDER && x < PWIDTH-BORDER && y > BORDER && y < PHEIGHT-BORDER) {
@@ -235,9 +236,8 @@ public class GamePanel extends JPanel implements Runnable, MouseListener {
 		}
 	}
 	
+	public void mouseClicked(MouseEvent e) {}
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
-	public void mousePressed(MouseEvent e) {}
 	public void mouseReleased(MouseEvent e) {}
-
 }
