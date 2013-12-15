@@ -25,6 +25,7 @@ public interface IPlayer {
 	 */
 	public Coordinate move();
 
+	// TODO: right now Java isn't forcing any class that implements IPlayer to write a toString() method even though we have the below. How to fix this?
 	@Override
 	public String toString();
 

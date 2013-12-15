@@ -1,7 +1,7 @@
 package othello;
 
 /**
- * An instance represents one game of Othello.
+ * An instance represents a game of Othello.
  */
 public class Game {
 
@@ -19,13 +19,14 @@ public class Game {
 		return board;
 	}
 
+	// TODO: put something in here that prevents players from making moves on the board. I know how to do it, but it'd be slow.
 	public void run() {
 		players[0].startNewGame(board, Player.BLACK);
 		players[1].startNewGame(board, Player.WHITE);
 		Player p = Player.BLACK;
 
 		if (PRINT) {
-			System.out.println("A friendly game of Othello on a " + board.getBoardDim() + "x" + board.getBoardDim() + " board.");
+			System.out.println("A friendly game of Othello on a " + board.getDim() + "x" + board.getDim() + " board.");
 			System.out.println("Player 1: " + players[0]);
 			System.out.println("Player 2: " + players[1]);
 			System.out.println();
@@ -38,11 +39,13 @@ public class Game {
 				continue;
 			}
 			if (PRINT) {
-				System.out.println("Player " + p + " to move.");
+				System.out.println("Player " + players[p.intValue()] + " playing " + p + " to move.");
 			}
 			Coordinate move = players[p.intValue()].move();
 			while (!board.isLegalMove(move, p)) {
 				System.out.println("Move is illegal!");
+				// The following line is in here right now just for debugging purposes.
+				System.exit(0);
 				move = players[p.intValue()].move();
 			}
 

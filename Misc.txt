@@ -1,4 +1,4 @@
-This txt file keeps track of misc information that may or may not be useful.
+This txt file keeps track of misc information for some AIs.
 This file is not meant to be used in the Othello program itself.
 
 Original weights for PlayerWeight:

@@ -50,9 +50,9 @@ public class PlayerWeight implements IPlayer {
 			System.exit(0);
 		}
 		numGamesPlayed = sc.nextInt();
-		weights = new double[board.getBoardDim()][board.getBoardDim()];
-		for (int r = 0; r < board.getBoardDim(); r++)
-			for (int c = 0; c < board.getBoardDim(); c++) {
+		weights = new double[board.getDim()][board.getDim()];
+		for (int r = 0; r < board.getDim(); r++)
+			for (int c = 0; c < board.getDim(); c++) {
 				weights[r][c] = sc.nextDouble();
 			}
 		sc.close();
@@ -68,8 +68,8 @@ public class PlayerWeight implements IPlayer {
 			Board clone = board.clone();
 			clone.makeMove(c, p);
 			double net = 0;
-			for (int r = 0; r < board.getBoardDim(); r++) {
-				for (int col = 0; col < board.getBoardDim(); col++) {
+			for (int r = 0; r < board.getDim(); r++) {
+				for (int col = 0; col < board.getDim(); col++) {
 					if (clone.getDisc(new Coordinate(r, col)) == p.toDisc()) {
 						net += weights[r][col];
 					}
@@ -126,10 +126,10 @@ public class PlayerWeight implements IPlayer {
 			debugPrint(weights);
 		}
 		boolean win = p == board.getWinner();
-		double[][] newWeights = new double[board.getBoardDim()][board.getBoardDim()];
+		double[][] newWeights = new double[board.getDim()][board.getDim()];
 
-		for (int r = 0; r < board.getBoardDim(); r++) {
-			for (int c = 0; c < board.getBoardDim(); c++) {
+		for (int r = 0; r < board.getDim(); r++) {
+			for (int c = 0; c < board.getDim(); c++) {
 				// This can obviously be condensed. I will leave it for now for testing.
 				newWeights[r][c] = weights[r][c];
 				if (win) {
@@ -161,13 +161,13 @@ public class PlayerWeight implements IPlayer {
 		}
 
 		out.println(numGamesPlayed + 1);
-		for (int r = 0; r < board.getBoardDim(); r++) {
-			for (int c = 0; c < board.getBoardDim(); c++) {
+		for (int r = 0; r < board.getDim(); r++) {
+			for (int c = 0; c < board.getDim(); c++) {
 				out.print(newWeights[r][c]);
-				if (c != board.getBoardDim() - 1)
+				if (c != board.getDim() - 1)
 					out.print(" ");
 			}
-			if (r != board.getBoardDim() - 1)
+			if (r != board.getDim() - 1)
 				out.println();
 		}
 		out.close();

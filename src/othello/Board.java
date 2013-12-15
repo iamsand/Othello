@@ -7,15 +7,15 @@ import java.util.ArrayList;
  */
 public class Board {
 
-	private int			boardDim;
+	private int			dim;
 	private Disc[][]	board;
 
-	public int getBoardDim() {
-		return boardDim;
+	public int getDim() {
+		return dim;
 	}
 
 	public Board(int boardDim) {
-		this.boardDim = boardDim;
+		this.dim = boardDim;
 		this.board = new Disc[boardDim][boardDim];
 		for (int r = 0; r < boardDim; r++)
 			for (int c = 0; c < boardDim; c++)
@@ -34,8 +34,8 @@ public class Board {
 	 */
 	public int getDiscs(Player p) {
 		int count = 0;
-		for (int r = 0; r < boardDim; r++)
-			for (int c = 0; c < boardDim; c++)
+		for (int r = 0; r < dim; r++)
+			for (int c = 0; c < dim; c++)
 				if (board[r][c] == p.toDisc())
 					count++;
 		return count;
@@ -75,8 +75,8 @@ public class Board {
 	 * @return true if p has at least 1 move. false otherwise.
 	 */
 	public boolean canMove(Player p) {
-		for (int r = 0; r < boardDim; r++)
-			for (int c = 0; c < boardDim; c++)
+		for (int r = 0; r < dim; r++)
+			for (int c = 0; c < dim; c++)
 				if (isLegalMove(new Coordinate(r, c), p))
 					return true;
 		return false;
@@ -109,9 +109,9 @@ public class Board {
 	 */
 	@Override
 	public Board clone() {
-		Board clone = new Board(boardDim);
-		for (int r = 0; r < boardDim; r++)
-			for (int c = 0; c < boardDim; c++)
+		Board clone = new Board(dim);
+		for (int r = 0; r < dim; r++)
+			for (int c = 0; c < dim; c++)
 				clone.setDisc(new Coordinate(r, c), board[r][c]);
 		return clone;
 	}
@@ -125,7 +125,7 @@ public class Board {
 	public boolean isLegalCoordinate(Coordinate c) {
 		if (c == null)
 			return false;
-		return c.getRow() >= 0 && c.getRow() < boardDim && c.getCol() >= 0 && c.getCol() < boardDim;
+		return c.getRow() >= 0 && c.getRow() < dim && c.getCol() >= 0 && c.getCol() < dim;
 	}
 
 	/**
@@ -163,8 +163,8 @@ public class Board {
 	 */
 	public ArrayList<Coordinate> allLegalMoves(Player p) {
 		ArrayList<Coordinate> al = new ArrayList<Coordinate>();
-		for (int r = 0; r < boardDim; r++)
-			for (int c = 0; c < boardDim; c++)
+		for (int r = 0; r < dim; r++)
+			for (int c = 0; c < dim; c++)
 				if (isLegalMove(new Coordinate(r, c), p))
 					al.add(new Coordinate(r, c));
 		return al;
@@ -198,15 +198,15 @@ public class Board {
 	 */
 	public void printBoard() {
 		System.out.print("[ ] ");
-		for (int c = 0; c < boardDim; c++) {
+		for (int c = 0; c < dim; c++) {
 			System.out.print("[" + c + "]");
-			if (c != boardDim - 1)
+			if (c != dim - 1)
 				System.out.print(" ");
 		}
 		System.out.println();
-		for (int r = 0; r < boardDim; r++) {
+		for (int r = 0; r < dim; r++) {
 			System.out.print("[" + r + "] ");
-			for (int c = 0; c < boardDim; c++) {
+			for (int c = 0; c < dim; c++) {
 				switch (board[r][c]) {
 					case BLACK:
 						System.out.print("[B]");
@@ -218,11 +218,27 @@ public class Board {
 						System.out.print("[ ]");
 						break;
 				}
-				if (c != boardDim - 1)
+				if (c != dim - 1)
 					System.out.print(" ");
 			}
 			System.out.println();
 		}
 		System.out.println();
+	}
+
+	/**
+	 * The method tells us if our board and b have equal values.
+	 * 
+	 * @param b
+	 * @return true if they are equal. False otherwise.
+	 */
+	public boolean compareTo(Board b) {
+		if (this.dim != b.getDim())
+			return false;
+		for (int r = 0; r < this.dim; r++)
+			for (int c = 0; c < this.dim; c++)
+				if (this.getDisc(new Coordinate(r, c)) != b.getDisc(new Coordinate(r, c)))
+					return false;
+		return true;
 	}
 }
