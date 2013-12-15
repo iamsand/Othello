@@ -25,11 +25,12 @@ public interface IPlayer {
 	 */
 	public Coordinate move();
 
+	@Override
 	public String toString();
 
 	/**
 	 * Allows the player to do something when the game is over. Used for more sophisticated learning AI.
 	 */
-	public void endOfGameAnal();
+	public void endOfGameEval();
 
 }

@@ -56,8 +56,8 @@ public class Game {
 			p = p.switchPlayer();
 		}
 
-		players[0].endOfGameAnal();
-		players[1].endOfGameAnal();
+		players[0].endOfGameEval();
+		players[1].endOfGameEval();
 	}
 
 	public void printResult() {

@@ -25,12 +25,14 @@ public class OthelloMain extends JFrame {
 	}
 	
 	public static void main(String[] args) {
-		players[0] = new PlayerGreed();
-		players[1] = new PlayerHuman();
+		players[1] = new PlayerGreedier();
+		players[0] = new PlayerWeight();
 
-		// runMultiple(1000);
-		int period = (int) (1000.0 / DEFAULT_FPS);
-		new OthelloMain(period);
+		// runOnce();
+		
+		runMultiple(100);
+		// int period = (int) (1000.0 / DEFAULT_FPS);
+		// new OthelloMain(period);
 	}
 	
 	public static void runOnce() {

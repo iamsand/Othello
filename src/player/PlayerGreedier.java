@@ -60,6 +60,6 @@ public class PlayerGreedier implements IPlayer {
 	}
 
 	@Override
-	public void endOfGameAnal() {
+	public void endOfGameEval() {
 	}
 }

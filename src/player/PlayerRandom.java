@@ -38,7 +38,7 @@ public class PlayerRandom implements IPlayer {
 	}
 
 	@Override
-	public void endOfGameAnal() {
+	public void endOfGameEval() {
 	}
 	
 	

@@ -53,6 +53,6 @@ public class PlayerGreed implements IPlayer {
 	}
 
 	@Override
-	public void endOfGameAnal() {
+	public void endOfGameEval() {
 	}
 }

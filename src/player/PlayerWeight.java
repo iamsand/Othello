@@ -23,6 +23,7 @@ import othello.Player;
  */
 public class PlayerWeight implements IPlayer {
 
+	private boolean		debug	= false;
 	private Board			board;
 	private Player			p;
 	// There is a problem right now. The sum of the values in weights might drift after a large number of games. Fix this for future.
@@ -61,20 +62,22 @@ public class PlayerWeight implements IPlayer {
 	public Coordinate move() {
 		ArrayList<Coordinate> allMoves = board.allLegalMoves(p);
 		ArrayList<Coordinate> bestMoves = new ArrayList<Coordinate>();
-		double maxNet = 0;
-		
+		double maxNet = Double.NEGATIVE_INFINITY;
+
 		for (Coordinate c : allMoves) {
 			Board clone = board.clone();
 			clone.makeMove(c, p);
 			double net = 0;
-			for (int r = 0; r<board.getBoardDim(); r++){
-				for (int col = 0; col<board.getBoardDim(); col++){
-					if (board.getDisc(new Coordinate(r,col)) == p.toDisc()){
+			for (int r = 0; r < board.getBoardDim(); r++) {
+				for (int col = 0; col < board.getBoardDim(); col++) {
+					if (clone.getDisc(new Coordinate(r, col)) == p.toDisc()) {
 						net += weights[r][col];
 					}
 				}
 			}
-			
+			if (debug)
+				System.out.println("Move " + c + " gives net " + net);
+
 			if (net > maxNet)
 				bestMoves.clear();
 			if (net >= maxNet) {
@@ -92,7 +95,7 @@ public class PlayerWeight implements IPlayer {
 	}
 
 	public double[][] normalize(double[][] d) {
-		DecimalFormat df = new DecimalFormat("#.#####");
+		DecimalFormat df = new DecimalFormat("#.######");
 		double sum = 0;
 		for (int r = 0; r < d.length; r++)
 			for (int c = 0; c < d.length; c++)
@@ -105,31 +108,50 @@ public class PlayerWeight implements IPlayer {
 		return daa;
 	}
 
-	@Override
-	public void endOfGameAnal() {
+	public void debugPrint(double[][] daa) {
+		for (int r = 0; r < daa.length; r++) {
+			for (int c = 0; c < daa.length; c++) {
+				System.out.print(daa[r][c] + " ");
+			}
+			System.out.println();
+		}
+		System.out.println();
+	}
 
+	@Override
+	public void endOfGameEval() {
+		if (debug) {
+			System.out.println("Begin Analysis.");
+			System.out.println("Old Weights");
+			debugPrint(weights);
+		}
 		boolean win = p == board.getWinner();
 		double[][] newWeights = new double[board.getBoardDim()][board.getBoardDim()];
 
 		for (int r = 0; r < board.getBoardDim(); r++) {
 			for (int c = 0; c < board.getBoardDim(); c++) {
 				// This can obviously be condensed. I will leave it for now for testing.
+				newWeights[r][c] = weights[r][c];
 				if (win) {
-					if (board.getDisc(new Coordinate(r, c)) == p.toDisc())
-						newWeights[r][c] = weights[r][c] + 1 / (numGamesPlayed+1000);
-					else
-						newWeights[r][c] = weights[r][c] - 1 / (numGamesPlayed+1000);
+					if (board.getDisc(new Coordinate(r, c)) == p.toDisc()) {
+						newWeights[r][c] += 1.0 / (numGamesPlayed + 1000);
+					} else {
+						// newWeights[r][c] -= .10 / (numGamesPlayed + 10);
+					}
 				} else {
-					if (board.getDisc(new Coordinate(r, c)) == p.toDisc())
-						newWeights[r][c] = weights[r][c] - 1 / (numGamesPlayed+1000);
-					else
-						newWeights[r][c] = weights[r][c] + 1 / (numGamesPlayed+1000);
+					if (board.getDisc(new Coordinate(r, c)) == p.toDisc()) {
+						// newWeights[r][c] -= .05 / (numGamesPlayed + 10);
+					} else {
+						newWeights[r][c] += .25 / (numGamesPlayed + 1000);
+					}
 				}
 			}
 		}
-
 		newWeights = normalize(newWeights);
-		
+		if (debug) {
+			System.out.println("New weights");
+			debugPrint(newWeights);
+		}
 		PrintWriter out = null;
 		try {
 			out = new PrintWriter(new BufferedWriter(new FileWriter("PlayerWeightInfo.txt")));
@@ -138,7 +160,7 @@ public class PlayerWeight implements IPlayer {
 			System.exit(0);
 		}
 
-		out.println(numGamesPlayed+1);
+		out.println(numGamesPlayed + 1);
 		for (int r = 0; r < board.getBoardDim(); r++) {
 			for (int c = 0; c < board.getBoardDim(); c++) {
 				out.print(newWeights[r][c]);
@@ -149,5 +171,7 @@ public class PlayerWeight implements IPlayer {
 				out.println();
 		}
 		out.close();
+		if (debug)
+			System.out.println("End Analysis.");
 	}
 }

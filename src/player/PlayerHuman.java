@@ -43,6 +43,6 @@ public class PlayerHuman implements IPlayer {
 	}
 
 	@Override
-	public void endOfGameAnal() {
+	public void endOfGameEval() {
 	}
 }
