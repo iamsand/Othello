@@ -7,7 +7,9 @@ import othello.IPlayer;
 import othello.Player;
 
 /**
- * An instance of PlayerHuman allows a human player for the game. It utilizes scanner to take inputs. Make sure PRINT is true when using the PlayerHuman class!
+ * An instance of PlayerHuman allows a human player for the game. It utilizes scanner to take inputs.
+ * 
+ * Note: make sure PRINT is true when using the PlayerHuman class!
  */
 public class PlayerHuman implements IPlayer {
 
@@ -38,5 +40,9 @@ public class PlayerHuman implements IPlayer {
 	@Override
 	public Player getPlayerColor() {
 		return p;
+	}
+
+	@Override
+	public void endOfGameAnal() {
 	}
 }

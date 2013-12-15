@@ -36,4 +36,10 @@ public class PlayerRandom implements IPlayer {
 	public Player getPlayerColor() {
 		return p;
 	}
+
+	@Override
+	public void endOfGameAnal() {
+	}
+	
+	
 }

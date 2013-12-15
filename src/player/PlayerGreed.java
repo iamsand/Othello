@@ -51,4 +51,8 @@ public class PlayerGreed implements IPlayer {
 	public Player getPlayerColor() {
 		return p;
 	}
+
+	@Override
+	public void endOfGameAnal() {
+	}
 }

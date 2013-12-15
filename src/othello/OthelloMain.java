@@ -25,7 +25,6 @@ public class OthelloMain extends JFrame {
 	}
 	
 	public static void main(String[] args) {
-
 		players[0] = new PlayerGreed();
 		players[1] = new PlayerHuman();
 

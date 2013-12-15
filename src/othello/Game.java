@@ -6,7 +6,7 @@ package othello;
 public class Game {
 
 	private Board		board;
-	private boolean		PRINT;
+	private boolean	PRINT;
 	private IPlayer[]	players;
 
 	public Game(int boardDim, boolean print, IPlayer[] players) {
@@ -14,7 +14,7 @@ public class Game {
 		this.board = new Board(boardDim);
 		this.PRINT = print;
 	}
-	
+
 	public Board getBoard() {
 		return board;
 	}
@@ -55,6 +55,9 @@ public class Game {
 			}
 			p = p.switchPlayer();
 		}
+
+		players[0].endOfGameAnal();
+		players[1].endOfGameAnal();
 	}
 
 	public void printResult() {
@@ -66,7 +69,7 @@ public class Game {
 			System.out.println("Tie game");
 		else {
 			System.out.println((players[0].getPlayerColor() == board.getWinner() ? players[0].toString() : players[1].toString()) + " playing "
-					+ board.getWinner() + " wins");
+					+ board.getWinner() + " wins.");
 		}
 		System.out.println("Score: " + Math.max(board.getDiscs(Player.WHITE), board.getDiscs(Player.BLACK)) + " - "
 				+ Math.min(board.getDiscs(Player.WHITE), board.getDiscs(Player.BLACK)));

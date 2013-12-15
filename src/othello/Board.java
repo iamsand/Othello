@@ -87,7 +87,6 @@ public class Board {
 	 * 
 	 * @param c
 	 * @param p
-	 *           the player of interest.
 	 */
 	public void makeMove(Coordinate c, Player p) {
 		if (!isLegalMove(c, p)) {

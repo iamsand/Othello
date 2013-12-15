@@ -27,4 +27,9 @@ public interface IPlayer {
 
 	public String toString();
 
+	/**
+	 * Allows the player to do something when the game is over. Used for more sophisticated learning AI.
+	 */
+	public void endOfGameAnal();
+
 }

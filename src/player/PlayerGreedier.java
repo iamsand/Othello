@@ -7,7 +7,7 @@ import othello.IPlayer;
 import othello.Player;
 
 /**
- * An instance of PlayerGreed simulates a dummy AI that simply chooses the most greedy move every turn. If multiple moves and equal greed value, a random one is
+ * An instance of PlayerGreedier simulates a dummy AI that looks one move ahead and picks the greediest move. If multiple moves and equal greed value, a random one is
  * chosen.
  */
 public class PlayerGreedier implements IPlayer {
@@ -57,5 +57,9 @@ public class PlayerGreedier implements IPlayer {
 	@Override
 	public Player getPlayerColor() {
 		return p;
+	}
+
+	@Override
+	public void endOfGameAnal() {
 	}
 }
