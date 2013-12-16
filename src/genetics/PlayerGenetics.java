@@ -1,4 +1,4 @@
-package player;
+package genetics;
 
 import java.util.ArrayList;
 
@@ -8,15 +8,18 @@ import othello.IPlayer;
 import othello.Player;
 
 /**
- * An instance of PlayerGreedDepth simulates an AI that generates a tree and plays the greedy move at some depth.
+ * An instance of PlayerGenetics plays using a tree, but uses weights to evaluate the board.
  */
-public class PlayerGreedDepth implements IPlayer {
+// Right now this is a copy of PlayerGreedDepth with very minor changes. Will modify to make it work.
+public class PlayerGenetics implements IPlayer {
 
 	private Board		board;
 	private Player		p;
 	private boolean	DEBUG	= false;
 	// Modify this to change performance. I'm not sure if it matters, but use an odd depth for now.
 	int					depth	= 5;
+	double[][]			weights1;
+	double[][]			weights2;
 
 	@Override
 	public String toString() {
@@ -38,6 +41,11 @@ public class PlayerGreedDepth implements IPlayer {
 		this.p = p;
 	}
 
+	public void initWeights(double[][] weights1, double[][] weights2) {
+		this.weights1 = weights1;
+		this.weights2 = weights2;
+	}
+
 	treeNode	origin;
 
 	@Override
@@ -48,13 +56,13 @@ public class PlayerGreedDepth implements IPlayer {
 			tstPrint(origin);
 
 		ArrayList<Coordinate> bestMoves = new ArrayList<Coordinate>();
-		
+
 		for (treeNode tn : origin.children) {
 			if (origin.maxDiscsForBranch == tn.maxDiscsForBranch) {
 				bestMoves.add(tn.coordinate);
 			}
 		}
-		
+
 		return bestMoves.get((int) (Math.random() * bestMoves.size()));
 	}
 

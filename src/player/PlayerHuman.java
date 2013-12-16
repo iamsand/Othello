@@ -13,14 +13,14 @@ import othello.Player;
  */
 public class PlayerHuman implements IPlayer {
 
-	private Board		board;
+	// private Board		board;
 	private Player		p;
 	private Scanner	sc;
 
 	@Override
 	public void startNewGame(Board board, Player p) {
 		this.sc = new Scanner(System.in);
-		this.board = board;
+		// this.board = board;
 		this.p = p;
 	}
 

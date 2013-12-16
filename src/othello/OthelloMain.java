@@ -5,23 +5,21 @@ import javax.swing.JFrame;
 import player.*;
 
 public class OthelloMain extends JFrame {
+	private static final long		serialVersionUID	= 1L;
 
 	// ----------------------------//
 	// -- Modify arguments here. --//
 	// -------------V--------------//
-	private static IPlayer[]		players		= new IPlayer[2];
-	private static final int		SIZE			= 8;
-	private static final boolean	PRINT			= true;
-	private static int				DEFAULT_FPS	= 80;
+	private static IPlayer[]		players				= { new PlayerGreedDepth(), new PlayerGreed() };
+	private static final int		SIZE					= 8;
+	private static final boolean	PRINT					= true;
+	private static int				DEFAULT_FPS			= 80;
 
 	public static void main(String[] args) {
-		players[0] = new PlayerGreedDepth();
-		players[1] = new PlayerGreed();
-	
 		// AITester.test(new PlayerGreedDepth());
 		// runOnce();
-		runMultiple(10);
-		// runWithGUI();
+		// runMultiple(10);
+		runWithGUI();
 	}
 
 	public static void runWithGUI() {
@@ -59,7 +57,7 @@ public class OthelloMain extends JFrame {
 			if (winner == Player.WHITE)
 				score[2]++;
 		}
-		System.out.println(String.format("%-10s%-10s%-10s", "Black","Tie","White"));
-		System.out.println(String.format("%-10s%-10s%-10s", score[0],score[1],score[2]));
+		System.out.println(String.format("%-10s%-10s%-10s", "Black", "Tie", "White"));
+		System.out.println(String.format("%-10s%-10s%-10s", score[0], score[1], score[2]));
 	}
 }
