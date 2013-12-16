@@ -13,68 +13,76 @@ import java.io.PrintWriter;
  */
 public class GenTxt {
 
-	// Normalize makes the entries sum to 64.
-	public static double[][] normalize(double[][] d) {
-		double sum = 0;
-		for (int r = 0; r < d.length; r++)
-			for (int c = 0; c < d.length; c++)
-				sum += d[r][c];
+	// Note that for the arrays: dim 1 represents player, dim 2 represents first array or second, dim 3 and 4 are dimensions.
 
-		double[][] daa = new double[d.length][d.length];
-		for (int r = 0; r < daa.length; r++)
-			for (int c = 0; c < daa.length; c++)
-				daa[r][c] = d[r][c] / sum * 64;
-		return daa;
+	// Normalize() makes the entries sum to 64.
+	public static double[][][][] normalize(double[][][][] d) {
+		for (int i = 0; i < d.length; i++)
+			for (int w = 0; w < 2; w++) {
+				double sum = 0;
+				for (int r = 0; r < 8; r++)
+					for (int c = 0; c < 8; c++) {
+						sum += d[i][w][r][c];
+					}
+				for (int r = 0; r < 8; r++)
+					for (int c = 0; c < 8; c++) {
+						d[i][w][r][c] = d[i][w][r][c] / sum * 64;
+					}
+			}
+
+		return d;
 	}
 
 	/**
-	 * The method prints 2*n 8x8 arrays. The idea is that the first array is the evaluation for your pieces. The second is the evaluation for your opponent's
-	 * pieces.
+	 * The method prints our weights in d to a file with title s.
 	 * 
-	 * @param n
+	 * @param s
+	 * @param d
 	 */
-	public static void gen(String s, int n) {
+	public static void print(String s, double[][][][] d) {
 		PrintWriter out = null;
 		try {
 			out = new PrintWriter(new BufferedWriter(new FileWriter(s)));
 		} catch (IOException e) {
-			System.out.println("GenWeights has thrown an exception trying to output. Please debug.");
+			System.out.println("GenWeights has thrown an exception trying to initialize. Please debug.");
 			System.exit(0);
 		}
 
-		// This is very ugly. I will fix it later.
-		for (int i = 0; i < n; i++) {
-			double[][] tmp1 = new double[8][8];
-			double[][] tmp2 = new double[8][8];
-			for (int r = 0; r < 8; r++) {
-				for (int c = 0; c < 8; c++) {
-					tmp1[r][c] = Math.random();
-					tmp2[r][c] = Math.random();
-				}
-			}
-			tmp1 = normalize(tmp1);
-			tmp2 = normalize(tmp2);
+		for (int i = 0; i < d.length; i++) {
 			out.println(i);
-			for (int r = 0; r < 8; r++) {
-				for (int c = 0; c < 8; c++) {
-					out.print(tmp1[r][c]);
-					if (c != 7)
-						out.print(" ");
+			for (int w = 0; w < 2; w++) {
+				for (int r = 0; r < 8; r++) {
+					for (int c = 0; c < 8; c++) {
+						out.print(d[i][w][r][c]);
+						if (c != 7)
+							out.print(" ");
+					}
+					out.println();
 				}
 				out.println();
 			}
-			out.println();
-			for (int r = 0; r < 8; r++) {
-				for (int c = 0; c < 8; c++) {
-					out.print(tmp2[r][c]);
-					if (c != 7)
-						out.print(" ");
-				}
-				out.println();
-			}
-			out.println();
-
 		}
 		out.close();
+	}
+
+	/**
+	 * The method generates 2*n sets of random weights for the n players.
+	 * 
+	 * @param n
+	 * @return
+	 */
+	public static double[][][][] gen(int n) {
+		double[][][][] d = new double[n][2][8][8];
+		for (int i = 0; i < n; i++) {
+			for (int w = 0; w < 2; w++) {
+				for (int r = 0; r < 8; r++) {
+					for (int c = 0; c < 8; c++) {
+						d[i][w][r][c] = Math.random();
+					}
+				}
+			}
+		}
+		d = normalize(d);
+		return d;
 	}
 }

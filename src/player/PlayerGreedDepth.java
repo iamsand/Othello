@@ -14,7 +14,7 @@ public class PlayerGreedDepth implements IPlayer {
 
 	private Board		board;
 	private Player		p;
-	private boolean	DEBUG	= false;
+	private boolean	DEBUG	= true;
 	// Modify this to change performance. I'm not sure if it matters, but use an odd depth for now.
 	int					depth	= 5;
 
@@ -124,8 +124,8 @@ public class PlayerGreedDepth implements IPlayer {
 		}
 
 		public String toString() {
-			String s = String.format("%-7s%-3s%-6s%-10s%-8s%-7s%-13s%-2s", "depth:", depth + ",", "coord", coordinate + ",", "Player:", player + ",",
-					"numChildren:", children.size(), "maxDiscs", maxDiscsForBranch);
+			String s = String.format("%-7s%-3s%-6s%-10s%-8s%-7s%-13s%-3s%-9s%-3s", "depth:", depth + ",", "coord", coordinate + ",", "Player:", player + ",",
+					"numChildren:", children.size()+",", "maxDiscs", maxDiscsForBranch);
 			return "[" + s + "]";
 		}
 	}

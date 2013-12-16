@@ -17,7 +17,7 @@ public class PlayerGenetics implements IPlayer {
 	private Player		p;
 	private boolean	DEBUG	= false;
 	// Modify this to change performance. I'm not sure if it matters, but use an odd depth for now.
-	int					depth	= 5;
+	int					depth	= 3;
 	double[][]			weights1;
 	double[][]			weights2;
 
@@ -56,13 +56,20 @@ public class PlayerGenetics implements IPlayer {
 			tstPrint(origin);
 
 		ArrayList<Coordinate> bestMoves = new ArrayList<Coordinate>();
+		
+		// System.out.println("Begin move() debug");
 
+		// System.out.println(origin.maxWeightForBranch);
+		// System.out.println("num child " + origin.children.size());
+		
 		for (treeNode tn : origin.children) {
-			if (origin.maxDiscsForBranch == tn.maxDiscsForBranch) {
+			// System.out.println(tn.maxWeightForBranch);
+			if (origin.maxWeightForBranch == tn.maxWeightForBranch) {
 				bestMoves.add(tn.coordinate);
 			}
 		}
 
+		// System.out.println("End move() debug");
 		return bestMoves.get((int) (Math.random() * bestMoves.size()));
 	}
 
@@ -76,7 +83,16 @@ public class PlayerGenetics implements IPlayer {
 	public void tree(treeNode t) {
 		// Once we hit a leaf. Determine the number of discs for our player.
 		if (t.depth >= depth || t.board.isGameOver()) {
-			t.maxDiscsForBranch = t.board.getDiscs(p);
+			double ourWeight = 0;
+			double oppWeight = 0;
+			for (int r = 0; r < 8; r++)
+				for (int c = 0; c < 8; c++) {
+					if (t.board.getDisc(new Coordinate(r, c)) == p.toDisc())
+						ourWeight += weights1[r][c];
+					else if (t.board.getDisc(new Coordinate(r, c)) == p.switchPlayer().toDisc())
+						oppWeight += weights2[r][c];
+				}
+			t.maxWeightForBranch = ourWeight-oppWeight;
 			return;
 		}
 
@@ -96,12 +112,13 @@ public class PlayerGenetics implements IPlayer {
 
 			// This takes the min/ max value of the children treenode depending on whose turn it is.
 			if (nextPlayer != p) {
-				t.maxDiscsForBranch = Integer.MAX_VALUE;
+				t.maxWeightForBranch = Integer.MAX_VALUE;
 				for (treeNode tn : t.children)
-					t.maxDiscsForBranch = Math.min(t.maxDiscsForBranch, tn.maxDiscsForBranch);
+					t.maxWeightForBranch = Math.min(t.maxWeightForBranch, tn.maxWeightForBranch);
 			} else {
+				t.maxWeightForBranch = Integer.MIN_VALUE;
 				for (treeNode tn : t.children)
-					t.maxDiscsForBranch = Math.max(t.maxDiscsForBranch, tn.maxDiscsForBranch);
+					t.maxWeightForBranch = Math.max(t.maxWeightForBranch, tn.maxWeightForBranch);
 			}
 		}
 	}
@@ -117,7 +134,7 @@ public class PlayerGenetics implements IPlayer {
 		public ArrayList<treeNode>	children;
 
 		// This is what we're trying to figure out.
-		public int						maxDiscsForBranch;
+		public double					maxWeightForBranch;
 
 		public treeNode(int depth, Coordinate value, Board board, Player player) {
 			this.depth = depth;
@@ -132,8 +149,8 @@ public class PlayerGenetics implements IPlayer {
 		}
 
 		public String toString() {
-			String s = String.format("%-7s%-3s%-6s%-10s%-8s%-7s%-13s%-2s", "depth:", depth + ",", "coord", coordinate + ",", "Player:", player + ",",
-					"numChildren:", children.size(), "maxDiscs", maxDiscsForBranch);
+			String s = String.format("%-7s%-3s%-6s%-10s%-8s%-7s%-13s%-3s%-9s%-10s", "depth:", depth + ",", "coord", coordinate + ",", "Player:", player + ",",
+					"numChildren:", children.size()+",", "maxDiscs", maxWeightForBranch);
 			return "[" + s + "]";
 		}
 	}
